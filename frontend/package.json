@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "@anchor-lang/core": "^0.32.0",
+    "@solana/wallet-adapter-phantom": "^0.9.30",
     "@solana/wallet-adapter-react": "^0.15.0",
     "@solana/wallet-adapter-react-ui": "^0.9.0",
-    "@solana/wallet-adapter-phantom": "^0.9.30",
     "@solana/web3.js": "^1.98.0",
+    "buffer": "^6.0.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.0.0"
