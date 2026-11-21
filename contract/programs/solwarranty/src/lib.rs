@@ -1,8 +1,6 @@
 use anchor_lang::prelude::*;
 
-// Solana Playground sustituye este ID al compilar el programa creado allí.
-// No usar este valor como dirección de un despliegue.
-declare_id!("11111111111111111111111111111111");
+declare_id!("7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4");
 
 const DAY: i64 = 86_400;
 const MAX_DURATION: i64 = 730 * DAY;
