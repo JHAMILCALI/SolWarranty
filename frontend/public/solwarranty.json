@@ -1,0 +1,673 @@
+{
+  "address": "7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4",
+  "metadata": {
+    "name": "solwarranty",
+    "version": "0.1.0",
+    "spec": "0.1.0"
+  },
+  "instructions": [
+    {
+      "name": "initialize_store",
+      "discriminator": [
+        109,
+        149,
+        210,
+        214,
+        188,
+        126,
+        220,
+        140
+      ],
+      "accounts": [
+        {
+          "name": "store",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "create_warranty",
+      "discriminator": [
+        242,
+        137,
+        29,
+        136,
+        7,
+        108,
+        249,
+        39
+      ],
+      "accounts": [
+        {
+          "name": "store",
+          "writable": true
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "warranty_id",
+          "type": "u64"
+        },
+        {
+          "name": "buyer",
+          "type": "pubkey"
+        },
+        {
+          "name": "product_name",
+          "type": "string"
+        },
+        {
+          "name": "serial_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "receipt_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "duration_seconds",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "update_warranty",
+      "discriminator": [
+        239,
+        86,
+        148,
+        217,
+        184,
+        112,
+        109,
+        215
+      ],
+      "accounts": [
+        {
+          "name": "store",
+          "writable": true
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "buyer",
+          "type": "pubkey"
+        },
+        {
+          "name": "product_name",
+          "type": "string"
+        },
+        {
+          "name": "serial_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "receipt_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        },
+        {
+          "name": "duration_seconds",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "activate_warranty",
+      "discriminator": [
+        224,
+        84,
+        36,
+        146,
+        70,
+        216,
+        222,
+        174
+      ],
+      "accounts": [
+        {
+          "name": "store",
+          "writable": true
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_claim",
+      "discriminator": [
+        71,
+        122,
+        43,
+        84,
+        240,
+        165,
+        215,
+        181
+      ],
+      "accounts": [
+        {
+          "name": "store"
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "claim",
+          "writable": true
+        },
+        {
+          "name": "claimant",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "claim_id",
+          "type": "u64"
+        },
+        {
+          "name": "reason",
+          "type": {
+            "defined": {
+              "name": "ClaimReason"
+            }
+          }
+        },
+        {
+          "name": "description_hash",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "resolve_claim",
+      "discriminator": [
+        63,
+        99,
+        216,
+        44,
+        183,
+        52,
+        190,
+        140
+      ],
+      "accounts": [
+        {
+          "name": "store"
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "claim",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "signer": true
+        }
+      ],
+      "args": [
+        {
+          "name": "resolution",
+          "type": {
+            "defined": {
+              "name": "ClaimResolution"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "close_draft",
+      "discriminator": [
+        79,
+        18,
+        68,
+        238,
+        240,
+        145,
+        233,
+        67
+      ],
+      "accounts": [
+        {
+          "name": "store",
+          "writable": true
+        },
+        {
+          "name": "warranty",
+          "writable": true
+        },
+        {
+          "name": "authority",
+          "writable": true,
+          "signer": true
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Store",
+      "discriminator": [
+        130,
+        48,
+        247,
+        244,
+        182,
+        191,
+        30,
+        26
+      ]
+    },
+    {
+      "name": "Warranty",
+      "discriminator": [
+        50,
+        42,
+        99,
+        41,
+        219,
+        28,
+        135,
+        204
+      ]
+    },
+    {
+      "name": "Claim",
+      "discriminator": [
+        155,
+        70,
+        22,
+        176,
+        123,
+        215,
+        246,
+        102
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "Unauthorized",
+      "msg": "Wallet no autorizada"
+    },
+    {
+      "code": 6001,
+      "name": "WarrantyNotDraft",
+      "msg": "La garantía debe estar en borrador"
+    },
+    {
+      "code": 6002,
+      "name": "WarrantyNotActive",
+      "msg": "La garantía debe estar activa"
+    },
+    {
+      "code": 6003,
+      "name": "WarrantyExpired",
+      "msg": "La garantía ha vencido"
+    },
+    {
+      "code": 6004,
+      "name": "ClaimAlreadyOpen",
+      "msg": "Ya existe una reclamación abierta"
+    },
+    {
+      "code": 6005,
+      "name": "ClaimNotOpen",
+      "msg": "La reclamación no está abierta"
+    },
+    {
+      "code": 6006,
+      "name": "InvalidWarrantyId",
+      "msg": "ID de garantía inesperado"
+    },
+    {
+      "code": 6007,
+      "name": "InvalidClaimId",
+      "msg": "ID de reclamación inesperado"
+    },
+    {
+      "code": 6008,
+      "name": "InvalidDuration",
+      "msg": "Duración inválida"
+    },
+    {
+      "code": 6009,
+      "name": "NameTooLong",
+      "msg": "Texto demasiado largo o vacío"
+    },
+    {
+      "code": 6010,
+      "name": "Overflow",
+      "msg": "Desbordamiento aritmético"
+    },
+    {
+      "code": 6011,
+      "name": "ActiveClaimsExist",
+      "msg": "Hay reclamaciones abiertas"
+    },
+    {
+      "code": 6012,
+      "name": "InvalidBuyer",
+      "msg": "Comprador inválido"
+    },
+    {
+      "code": 6013,
+      "name": "InvalidResolution",
+      "msg": "Resolución inválida"
+    }
+  ],
+  "types": [
+    {
+      "name": "Store",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "pubkey"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "next_warranty_id",
+            "type": "u64"
+          },
+          {
+            "name": "draft_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Warranty",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "store",
+            "type": "pubkey"
+          },
+          {
+            "name": "buyer",
+            "type": "pubkey"
+          },
+          {
+            "name": "warranty_id",
+            "type": "u64"
+          },
+          {
+            "name": "product_name",
+            "type": "string"
+          },
+          {
+            "name": "serial_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "receipt_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "duration_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "activated_at",
+            "type": "i64"
+          },
+          {
+            "name": "expires_at",
+            "type": "i64"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "WarrantyStatus"
+              }
+            }
+          },
+          {
+            "name": "next_claim_id",
+            "type": "u64"
+          },
+          {
+            "name": "open_claim_count",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Claim",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "warranty",
+            "type": "pubkey"
+          },
+          {
+            "name": "claimant",
+            "type": "pubkey"
+          },
+          {
+            "name": "claim_id",
+            "type": "u64"
+          },
+          {
+            "name": "reason",
+            "type": {
+              "defined": {
+                "name": "ClaimReason"
+              }
+            }
+          },
+          {
+            "name": "description_hash",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": {
+                "name": "ClaimStatus"
+              }
+            }
+          },
+          {
+            "name": "resolution",
+            "type": {
+              "defined": {
+                "name": "ClaimResolution"
+              }
+            }
+          },
+          {
+            "name": "created_at",
+            "type": "i64"
+          },
+          {
+            "name": "resolved_at",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WarrantyStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Draft"
+          },
+          {
+            "name": "Active"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Open"
+          },
+          {
+            "name": "Resolved"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimReason",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Screen"
+          },
+          {
+            "name": "Battery"
+          },
+          {
+            "name": "Charging"
+          },
+          {
+            "name": "Other"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ClaimResolution",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "None"
+          },
+          {
+            "name": "Accepted"
+          },
+          {
+            "name": "Rejected"
+          }
+        ]
+      }
+    }
+  ]
+}
