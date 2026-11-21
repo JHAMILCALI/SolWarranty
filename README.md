@@ -4,7 +4,7 @@ Prototipo académico de garantías verificables en Solana Devnet. La [guía de i
 
 ## Estado actual
 
-El repositorio incluye un único archivo de contrato Anchor (`contract/programs/solwarranty/src/lib.rs`) y una aplicación React + Vite preparada para conectarse al programa. El frontend se instaló con npm y `npm run build` pasó. **Aún no hay compilación del contrato, despliegue, Program ID real, IDL generada, pruebas on-chain ejecutadas ni firmas Devnet.** No se debe presentar el código como contrato verificado hasta completar esos pasos.
+El repositorio incluye un único archivo de contrato Anchor (`contract/programs/solwarranty/src/lib.rs`) y una aplicación React + Vite preparada para conectarse al programa. El frontend se instaló con npm y `npm run build` pasó. El programa está desplegado en **Devnet** con Program ID `7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4` y el frontend apunta a él (`frontend/.env.example` y `frontend/public/solwarranty.json`). La IDL se reconstruyó desde `lib.rs` porque el programa no publicó su IDL en la cadena; una simulación de `initialize_store` contra Devnet fue aceptada. **Aún no se han ejecutado las pruebas on-chain completas (matriz T01–T14) ni hay firmas Devnet documentadas.** Si el binario desplegado difiere de `lib.rs`, reemplazar `solwarranty.json` por la IDL de ese build.
 
 ## Arquitectura
 
