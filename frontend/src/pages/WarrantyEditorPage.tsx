@@ -14,16 +14,17 @@ function hex(bytes: number[]): string { return Array.from(bytes).map(v => v.toSt
 
 export function WarrantyEditorPage() {
   const { id } = useParams(); const navigate = useNavigate();
+  const isCreating = !id || id === 'new';
   const { connection } = useConnection(); const wallet = useAnchorWallet();
   const store = useChainData(() => wallet ? getStore(connection, wallet.publicKey) : Promise.resolve(null), [connection, wallet?.publicKey.toBase58()]);
-  const warranty = useChainData(() => id && id !== 'new' ? getWarranty(connection, new PublicKey(id)) : Promise.resolve(null), [connection, id]);
+  const warranty = useChainData(() => !isCreating && id ? getWarranty(connection, new PublicKey(id)) : Promise.resolve(null), [connection, id]);
   const claims = useChainData(() => warranty.data ? claimsForWarranty(connection, warranty.data.publicKey) : Promise.resolve([]), [connection, warranty.data?.publicKey.toBase58()]);
   const tx = useTransaction();
   if (!wallet) return <p>Conecta la wallet de la tienda.</p>;
   if (store.loading || warranty.loading) return <p>Leyendo Devnet…</p>;
   if (store.error || warranty.error) return <p className="error" role="alert">{store.error || warranty.error}</p>;
   if (!store.data) return <p>Registra primero tu tienda en <Link to="/store">el panel</Link>.</p>;
-  if (id !== 'new' && !warranty.data) return <p>Garantía inexistente.</p>;
+  if (!isCreating && !warranty.data) return <p>Garantía inexistente.</p>;
   if (warranty.data && !warranty.data.account.store.equals(store.data.publicKey)) return <p>Esta garantía pertenece a otra tienda.</p>;
   const current = warranty.data;
   async function save(input: WarrantyInput) {
