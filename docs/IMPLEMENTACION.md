@@ -59,6 +59,8 @@ Las páginas de lectura usan un `Program` sin wallet. El adaptador de wallet se 
 
 Para cada caso registrar estado inicial, acción, resultado esperado, resultado observado, estado final y firma o error Anchor. Un fallo de RPC o un botón deshabilitado no demuestra una regla del contrato.
 
+Los resultados observados hasta ahora están en [EVIDENCIAS.md](EVIDENCIAS.md#4-cobertura-de-la-matriz-de-aceptación).
+
 ## 6. Pendientes de entrega
 
-Ya existen el Program ID y la IDL, pero **faltan** las pruebas on-chain ejecutadas (T01–T14) y las firmas de Devnet como evidencia. Son requisitos para declarar el proyecto completo y no deben inventarse. Los hashes deben generarse fuera de la cadena y no se deben subir datos privados ni claves.
+Ya existen el Program ID, la IDL y las evidencias del flujo principal (13 transacciones y 11 capturas en [EVIDENCIAS.md](EVIDENCIAS.md)), que cubren T01, T02, T04, T05 y T06. **Faltan** T03, T10 y los casos de rechazo T07–T09 y T11–T14, que necesitan una tercera wallet y capturas del error. No deben inventarse. Los hashes deben generarse fuera de la cadena y no se deben subir datos privados ni claves.

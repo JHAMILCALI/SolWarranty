@@ -35,6 +35,7 @@ Una tienda registra la garantía, el comprador la reclama y cualquiera puede com
 - [Frontend](#frontend)
 - [Reglas de negocio](#reglas-de-negocio)
 - [Redesplegar el contrato](#redesplegar-el-contrato)
+- [Evidencias en Devnet](#evidencias-en-devnet)
 - [Estado del proyecto](#estado-del-proyecto)
 
 ## Qué hace
@@ -212,6 +213,23 @@ El programa actual ya está desplegado. Estos pasos son solo si cambias `lib.rs`
 
 No mantengas una IDL de un build anterior después de cambiar el contrato.
 
+## Evidencias en Devnet
+
+El flujo completo se ejecutó con la aplicación y dos wallets de Phantom (tienda y comprador): se registró la tienda, se crearon y activaron 3 garantías, se abrieron 3 reclamaciones y la tienda resolvió dos, una **aceptada** y otra **rechazada**. Son **13 transacciones confirmadas, ninguna con error**, verificables en [Solana Explorer](https://explorer.solana.com/address/7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4?cluster=devnet).
+
+<table>
+  <tr>
+    <td width="50%"><a href="docs/EVIDENCIAS.md#3-capturas"><img src="docs/evidencias/04-tienda-panel-borrador-confirmado.png" alt="Panel de la tienda con el borrador confirmado"></a><br><sub><b>Tienda:</b> borrador confirmado en Devnet</sub></td>
+    <td width="50%"><a href="docs/EVIDENCIAS.md#3-capturas"><img src="docs/evidencias/09-comprador-firma-phantom-reclamacion.png" alt="Phantom pide confirmar la reclamación"></a><br><sub><b>Comprador:</b> firma de una reclamación en Phantom</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><a href="docs/EVIDENCIAS.md#3-capturas"><img src="docs/evidencias/10-explorador-garantias-reclamo-abierto.png" alt="Explorador de garantías con una reclamación abierta"></a><br><sub><b>Verificación pública:</b> garantías y reclamación abierta</sub></td>
+    <td width="50%"><a href="docs/EVIDENCIAS.md#3-capturas"><img src="docs/evidencias/11-solana-explorer-programa-devnet.png" alt="Cuenta del programa en Solana Explorer"></a><br><sub><b>Solana Explorer:</b> programa e historial de transacciones</sub></td>
+  </tr>
+</table>
+
+En [`docs/EVIDENCIAS.md`](docs/EVIDENCIAS.md) están las 11 capturas explicadas, la tabla con las 13 firmas completas, el estado final de las cuentas y la cobertura de la matriz de pruebas.
+
 ## Estado del proyecto
 
 | Elemento | Estado |
@@ -219,8 +237,8 @@ No mantengas una IDL de un build anterior después de cambiar el contrato.
 | Programa Anchor | Desplegado en Devnet |
 | IDL | Generada del mismo `lib.rs`; coincide con la IDL descargada de Playground |
 | Frontend | Compila con `npm run build` y apunta al programa |
-| Simulación de `initialize_store` en Devnet | Aceptada |
-| Pruebas on-chain completas (T01–T14) | **Pendientes** |
-| Firmas de transacciones en Devnet documentadas | **Pendientes** |
+| Flujo tienda → comprador → resolución en Devnet | Ejecutado; 13 transacciones y 11 capturas en [`docs/EVIDENCIAS.md`](docs/EVIDENCIAS.md) |
+| Matriz T01–T14: T01, T02, T04, T05 y T06 | **Evidenciadas** |
+| Matriz T01–T14: T03, T07–T14 | **Pendientes** (editar y cerrar borrador, y casos de rechazo) |
 
-Antes de dar el proyecto por terminado hay que ejecutar la [matriz T01–T14](docs/IMPLEMENTACION.md#5-matriz-de-aceptación-on-chain) con tres wallets (tienda, comprador y ajena) y registrar, para cada caso, el estado inicial, el resultado observado y la firma o el error de Anchor. No se deben inventar evidencias de Devnet.
+Quedan por ejecutar [los casos pendientes de la matriz](docs/EVIDENCIAS.md#4-cobertura-de-la-matriz-de-aceptación), que necesitan una tercera wallet (ajena) y registrar, para cada caso, el estado inicial, el resultado observado y el error de Anchor. No se deben inventar evidencias de Devnet.
