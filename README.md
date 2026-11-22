@@ -14,6 +14,7 @@ Una tienda registra la garantía, el comprador la reclama y cualquiera puede com
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=flat-square&logo=vite&logoColor=white)
 
+[**Demo en vivo**](https://solwarranty.vercel.app/) ·
 [Programa en Explorer](https://explorer.solana.com/address/7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4?cluster=devnet) ·
 [Guía de implementación](docs/IMPLEMENTACION.md) ·
 [Matriz de pruebas](docs/IMPLEMENTACION.md#5-matriz-de-aceptación-on-chain)
@@ -28,6 +29,7 @@ Una tienda registra la garantía, el comprador la reclama y cualquiera puede com
 
 - [Qué hace](#qué-hace)
 - [Cómo funciona](#cómo-funciona)
+- [Probar la demo](#probar-la-demo)
 - [Inicio rápido](#inicio-rápido)
 - [Configuración](#configuración)
 - [Arquitectura](#arquitectura)
@@ -63,6 +65,25 @@ stateDiagram-v2
 ```
 
 Un reclamo tiene su propio ciclo: nace **Abierto** y termina **Resuelto** con resolución **Aceptada** o **Rechazada**. Solo puede haber un reclamo abierto por garantía.
+
+## Probar la demo
+
+Puedes probar todo el proyecto, sin instalar nada, en **<https://solwarranty.vercel.app/>**. Está conectada al programa desplegado en Devnet, así que cada acción firma una transacción real de prueba.
+
+1. Instala [Phantom](https://phantom.app), activa **Modo de prueba (Testnet)** en sus ajustes y selecciona **Solana Devnet**.
+2. Consigue SOL de prueba en <https://faucet.solana.com> (elige Devnet). Con 1 SOL basta.
+3. Abre la demo y pulsa **Conectar wallet**.
+4. Recorre el flujo. Necesitas **dos wallets** de Phantom, una para la tienda y otra para el comprador:
+
+| Paso | Wallet | Dónde |
+|---|---|---|
+| Registrar la tienda | Tienda | `/store` |
+| Crear una garantía, indicando la dirección de la wallet del comprador, y activarla | Tienda | `/store/warranties/new` |
+| Ver la garantía y abrir una reclamación | Comprador | `/my-warranties` y `/verify` |
+| Ver el aviso de reclamación y aceptarla o rechazarla | Tienda | `/store` |
+| Verificar cualquier garantía, sin wallet | Cualquiera | `/verify` |
+
+Las transacciones tardan unos segundos en confirmarse. Al terminar, la aplicación muestra un enlace a Solana Explorer con la firma.
 
 ## Inicio rápido
 
