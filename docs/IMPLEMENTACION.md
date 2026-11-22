@@ -1,16 +1,16 @@
 # Implementación pendiente y criterios de integración
 
-Esta guía reúne los pasos verificables para completar el contrato y su conexión con el frontend. El código del contrato no se ha compilado ni desplegado; el frontend sí tiene dependencias instaladas con npm y pasó `npm run build`.
+Esta guía reúne los pasos verificables para validar el contrato y su conexión con el frontend. El programa está desplegado en Devnet (`7uYrQU8oTEK7JaPfAcZPQSQcJLMs2BmxfmVkc1iSbFp4`) y el frontend ya apunta a él y pasa `npm run build`. Lo que falta es ejecutar la matriz de pruebas on-chain y documentar sus resultados.
 
-## 1. Contrato, antes de conectar la UI
+## 1. Contrato
 
-El archivo fuente es [`lib.rs`](../contract/programs/solwarranty/src/lib.rs). En Solana Playground se debe copiar a un proyecto Anchor, fijar la versión efectiva de Anchor y compilar. El `declare_id!` actual es un marcador. Después se ejecutan pruebas sobre `initialize_store`, `create_warranty`, `update_warranty`, `activate_warranty`, `create_claim`, `resolve_claim` y `close_draft`.
+El archivo fuente es [`lib.rs`](../contract/programs/solwarranty/src/lib.rs) y su `declare_id!` ya es el Program ID desplegado. Si se modifica, hay que volver a compilar y desplegar en Solana Playground y regenerar la IDL (ver el [README](../README.md#redesplegar-el-contrato)). Hay que ejecutar pruebas sobre `initialize_store`, `create_warranty`, `update_warranty`, `activate_warranty`, `create_claim`, `resolve_claim` y `close_draft`.
 
 La matriz T01–T14 de esta guía es el control de aceptación. Hay que confirmar especialmente los tres invariantes: `next_warranty_id` nunca retrocede; `draft_count` baja solo al activar/cerrar un borrador; `open_claim_count` queda en 0 después de resolver. Los rechazos se prueban con cuentas existentes y firmantes válidos para aislar la regla que se pretende demostrar.
 
 ## 2. Artefactos de integración
 
-Tras compilar y desplegar en Devnet, copiar la IDL de ese build a `frontend/public/solwarranty.json`. La propiedad `address` debe coincidir con `VITE_PROGRAM_ID` y con `declare_id!`. El cliente comprueba esa igualdad antes de consultar o enviar transacciones. No mantener IDL de un build anterior tras cambiar el contrato. Si la versión concreta de Playground genera una IDL o API TypeScript diferente, adaptar `program.ts` y `transactions.ts` a esa versión y repetir el flujo completo.
+La IDL del build desplegado está en `frontend/public/solwarranty.json`; si se vuelve a desplegar, hay que reemplazarla. Playground genera el formato antiguo (Anchor 0.29), que se convierte con `frontend/scripts/convert-idl.mjs`. La propiedad `address` debe coincidir con `VITE_PROGRAM_ID` y con `declare_id!`. El cliente comprueba esa igualdad antes de consultar o enviar transacciones. No mantener IDL de un build anterior tras cambiar el contrato. Si la versión concreta de Playground genera una IDL o API TypeScript diferente, adaptar `program.ts` y `transactions.ts` a esa versión y repetir el flujo completo.
 
 La familia prevista es Anchor `@anchor-lang/core` con `@solana/web3.js` v1. La documentación de Anchor confirma esa combinación, pero las versiones exactas quedan sujetas al build real. El `package-lock.json` registra las versiones instaladas; `npm run build` pasó localmente.
 
@@ -61,4 +61,4 @@ Para cada caso registrar estado inicial, acción, resultado esperado, resultado 
 
 ## 6. Pendientes de entrega
 
-No hay IDL, tests on-chain ejecutados, Program ID ni evidencias de Devnet porque el contrato todavía no se ha compilado o desplegado. Son requisitos para declarar el proyecto completo. Los hashes deben generarse fuera de la cadena y no se deben subir datos privados ni claves.
+Ya existen el Program ID y la IDL, pero **faltan** las pruebas on-chain ejecutadas (T01–T14) y las firmas de Devnet como evidencia. Son requisitos para declarar el proyecto completo y no deben inventarse. Los hashes deben generarse fuera de la cadena y no se deben subir datos privados ni claves.
