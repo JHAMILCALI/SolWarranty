@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WarrantyCard } from '../components/WarrantyCard';
 import { ActionModal } from '../components/ActionModal';
+import { WalletButton } from '../components/WalletButton';
 import { useNotifications } from '../components/Notifications';
 import { useChainData } from '../hooks/useChainData';
 import { useTransaction } from '../hooks/useTransaction';
@@ -43,7 +44,7 @@ export function StoreDashboardPage() {
       </div>
       <p className="app-lede">Emite, activa y administra las garantías de tus productos desde una sola wallet.</p>
     </div>
-    {!wallet && <div className="app-state app-state-feature"><img src="/img/SolWarranty_isotipo.svg" alt="" /><div><span className="app-kicker">ACCESO / TIENDA</span><h2>CONECTA TU WALLET<span className="app-period">.</span></h2><p>Conecta la wallet administradora para registrar tu tienda y gestionar sus garantías.</p></div></div>}
+    {!wallet && <div className="app-state app-state-feature"><img src="/img/SolWarranty_isotipo.svg" alt="" /><div><span className="app-kicker">ACCESO / TIENDA</span><h2>CONECTA TU WALLET<span className="app-period">.</span></h2><p>Conecta la wallet administradora para registrar tu tienda y gestionar sus garantías.</p><div style={{ marginTop: '18px' }}><WalletButton /></div></div></div>}
     {wallet && <>
       {store.loading && <p className="app-state">Cargando tienda desde Devnet…</p>}
       {store.error && <p className="error app-state" role="alert">{store.error}</p>}

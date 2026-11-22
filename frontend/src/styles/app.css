@@ -31,6 +31,471 @@
 .app-nav a.is-active { text-decoration: underline; text-decoration-color: var(--app-purple); text-underline-offset: 9px; text-decoration-thickness: 2px; }
 .app-nav small { color: #8065db; font-size: 10px; }
 .app-menu-toggle { display: none; }
+
+/* ========================================================
+   CUSTOM WEB3 WALLET BUTTON & FLOATING DROPDOWN
+   ======================================================== */
+.sw-wallet-container {
+  position: relative;
+  display: inline-flex;
+  z-index: 40;
+}
+
+.sw-wallet-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 42px;
+  border-radius: 999px;
+  cursor: pointer;
+  outline: none;
+  font: 800 11px ui-monospace, SFMono-Regular, Consolas, monospace;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: all .2s cubic-bezier(.2,.8,.2,1);
+  white-space: nowrap;
+}
+
+.sw-wallet-btn.is-disconnected {
+  background: rgba(113, 72, 255, 0.14);
+  color: #fff;
+  border: 1px solid rgba(174, 147, 255, 0.45);
+  padding: 0 16px;
+  box-shadow: 0 0 15px rgba(113, 72, 255, 0.15);
+}
+
+.sw-wallet-btn.is-disconnected:hover {
+  background: var(--app-purple);
+  border-color: var(--app-lilac);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(113, 72, 255, 0.45);
+}
+
+.sw-wallet-dot-idle {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--app-lilac);
+}
+
+.sw-wallet-icon-glyph {
+  color: var(--app-lilac);
+  font-size: 13px;
+  line-height: 1;
+}
+
+.sw-wallet-btn.is-disconnected:hover .sw-wallet-icon-glyph {
+  color: #fff;
+}
+
+.sw-wallet-btn.is-connecting {
+  background: #17152d;
+  color: #bbb2d4;
+  border: 1px solid #7148ff44;
+  padding: 0 16px;
+  cursor: wait;
+}
+
+.sw-wallet-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(174, 147, 255, 0.25);
+  border-top-color: var(--app-lilac);
+  border-radius: 50%;
+  animation: notice-spin .8s linear infinite;
+}
+
+/* Conectado: Píldora Web3 */
+.sw-wallet-btn.is-connected {
+  background: #100f21;
+  color: #fff;
+  border: 1px solid rgba(174, 147, 255, 0.35);
+  padding: 0 4px 0 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+.sw-wallet-btn.is-connected:hover,
+.sw-wallet-btn.is-connected.is-menu-open {
+  border-color: var(--app-lilac);
+  background: #17152f;
+  box-shadow: 0 0 20px rgba(113, 72, 255, 0.25);
+}
+
+.sw-wallet-balance-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #77f2c3;
+  font: 800 11px ui-monospace, Consolas, monospace;
+}
+
+.sw-wallet-dot-live {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #77f2c3;
+  box-shadow: 0 0 8px #77f2c3;
+  animation: live-pulse 2s infinite ease-in-out;
+}
+
+.sw-wallet-divider {
+  width: 1px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  margin: 0 4px;
+}
+
+.sw-wallet-user-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(113, 72, 255, 0.22);
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(174, 147, 255, 0.2);
+}
+
+.sw-wallet-avatar-img {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.sw-wallet-avatar-fallback {
+  color: var(--app-lilac);
+  font-size: 13px;
+}
+
+.sw-wallet-address {
+  color: #fff;
+  font: 700 11px ui-monospace, Consolas, monospace;
+}
+
+.sw-wallet-chevron {
+  color: var(--app-lilac);
+  font-size: 10px;
+  margin-left: 2px;
+}
+
+/* Menú Desplegable / Popover Flotante */
+.sw-wallet-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: min(340px, calc(100vw - 32px));
+  background: #0d0c1c;
+  border: 1px solid var(--app-lilac);
+  box-shadow: 12px 12px 0 rgba(113, 72, 255, 0.35), 0 25px 80px rgba(0, 0, 0, 0.85);
+  animation: app-rise .22s cubic-bezier(.2,.8,.2,1) both;
+  overflow: hidden;
+  z-index: 100;
+  text-align: left;
+}
+
+.sw-dropdown-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--app-line);
+  background: #0a0916;
+}
+
+.sw-dropdown-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sw-dropdown-wallet-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+
+.sw-dropdown-name-group strong {
+  display: block;
+  font: 800 14px Outfit, sans-serif;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.sw-dropdown-network-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font: 800 9px ui-monospace, Consolas, monospace;
+  color: #77f2c3;
+  background: #092017;
+  border: 1px solid #77f2c344;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-top: 4px;
+}
+
+.sw-dropdown-close-btn {
+  background: transparent;
+  border: 0;
+  color: #8c83a5;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.sw-dropdown-close-btn:hover {
+  color: #fff;
+}
+
+/* Card de Dirección */
+.sw-dropdown-address-card {
+  margin: 14px 16px 0;
+  padding: 12px 14px;
+  background: #060611;
+  border: 1px solid var(--app-line);
+}
+
+.sw-dropdown-mono-address {
+  display: block;
+  font: 600 11px/1.4 ui-monospace, Consolas, monospace;
+  color: #c4b9dd;
+  overflow-wrap: anywhere;
+}
+
+.sw-dropdown-address-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sw-dropdown-pill-btn,
+.sw-dropdown-pill-link {
+  display: inline-flex;
+  align-items: center;
+  font: 800 10px ui-monospace, Consolas, monospace;
+  padding: 5px 9px;
+  background: #141328;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--app-lilac);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .15s;
+}
+
+.sw-dropdown-pill-btn:hover,
+.sw-dropdown-pill-link:hover {
+  background: var(--app-lilac);
+  color: var(--app-ink);
+  border-color: var(--app-lilac);
+}
+
+/* Sección de Saldo */
+.sw-dropdown-balance-box {
+  margin: 12px 16px 0;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: linear-gradient(135deg, rgba(113, 72, 255, 0.16), rgba(13, 12, 28, 0.6));
+  border: 1px solid rgba(113, 72, 255, 0.35);
+}
+
+.sw-balance-details small {
+  display: block;
+  font: 800 9px ui-monospace, Consolas, monospace;
+  color: var(--app-lilac);
+  letter-spacing: .08em;
+}
+
+.sw-balance-details strong {
+  display: block;
+  font: 800 18px Outfit, sans-serif;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.sw-airdrop-btn {
+  background: var(--app-purple);
+  border: 1px solid var(--app-lilac);
+  color: #fff;
+  font: 800 10px ui-monospace, Consolas, monospace;
+  padding: 7px 11px;
+  cursor: pointer;
+  transition: all .2s;
+  white-space: nowrap;
+}
+
+.sw-airdrop-btn:hover:not(:disabled) {
+  background: var(--app-lilac);
+  color: var(--app-ink);
+  transform: translateY(-1px);
+}
+
+.sw-airdrop-btn:disabled {
+  opacity: .5;
+  cursor: wait;
+}
+
+/* Navegación Rápida */
+.sw-dropdown-nav {
+  margin-top: 14px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--app-line);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sw-dropdown-nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 8px;
+  color: #ccc4de;
+  font: 600 13px Outfit, sans-serif;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all .15s;
+}
+
+.sw-dropdown-nav-row:hover {
+  background: #17152e;
+  color: #fff;
+  transform: translateX(3px);
+}
+
+.sw-nav-arrow {
+  color: var(--app-lilac);
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+}
+
+/* Footer de Desconexión */
+.sw-dropdown-footer {
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--app-line);
+  background: #080814;
+}
+
+.sw-footer-btn {
+  flex: 1;
+  padding: 8px 10px;
+  font: 800 10px ui-monospace, Consolas, monospace;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #aba1c4;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.sw-footer-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border-color: #fff;
+}
+
+.sw-footer-btn.is-danger {
+  color: #ff9aa5;
+  border-color: rgba(255, 154, 165, 0.35);
+}
+
+.sw-footer-btn.is-danger:hover {
+  background: #ff9aa5;
+  color: var(--app-ink);
+  border-color: #ff9aa5;
+}
+
+/* ========================================================
+   MODAL DE SELECCIÓN DE WALLET (OVERRIDE ADAPTER STYLES)
+   ======================================================== */
+.wallet-adapter-modal-overlay {
+  background: rgba(3, 2, 10, 0.88) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background: #0f0e20 !important;
+  border: 1px solid var(--app-lilac) !important;
+  border-radius: 0 !important;
+  box-shadow: 16px 16px 0 rgba(113, 72, 255, 0.4), 0 30px 90px rgba(0, 0, 0, 0.9) !important;
+  padding: clamp(24px, 4vw, 44px) !important;
+  font-family: Outfit, sans-serif !important;
+}
+
+.wallet-adapter-modal-title {
+  font-family: Outfit, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -.05em !important;
+  font-size: clamp(24px, 3vw, 36px) !important;
+  color: #fff !important;
+  text-transform: uppercase !important;
+  padding-bottom: 18px !important;
+  border-bottom: 1px solid var(--app-line) !important;
+}
+
+.wallet-adapter-modal-button-close {
+  background: transparent !important;
+  border: 1px solid var(--app-line) !important;
+  border-radius: 0 !important;
+  color: #bbb2d3 !important;
+  width: 32px !important;
+  height: 32px !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+  top: 20px !important;
+  right: 20px !important;
+}
+
+.wallet-adapter-modal-button-close:hover {
+  background: var(--app-purple) !important;
+  color: #fff !important;
+  border-color: var(--app-lilac) !important;
+}
+
+.wallet-adapter-modal-list {
+  margin: 20px 0 0 !important;
+}
+
+.wallet-adapter-modal-list li {
+  margin-bottom: 10px !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button {
+  background: #151329 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  font-family: Outfit, sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  padding: 14px 18px !important;
+  height: auto !important;
+  transition: all .2s !important;
+}
+
+.wallet-adapter-modal-list .wallet-adapter-button:hover {
+  background: #231d45 !important;
+  border-color: var(--app-lilac) !important;
+  color: #fff !important;
+  transform: translateX(4px) !important;
+}
+
+.wallet-adapter-modal-collapse-button {
+  color: var(--app-lilac) !important;
+  font: 800 11px ui-monospace, Consolas, monospace !important;
+  text-transform: uppercase !important;
+}
 .app-ui .wallet-adapter-button { background: transparent; color: var(--app-lilac); border: 1px solid var(--app-lilac); border-radius: 0; min-height: 38px; height: auto; padding: 0 13px; font: 800 11px/1.2 ui-monospace, SFMono-Regular, Consolas, monospace; text-transform: uppercase; white-space: nowrap; transition: background .2s, color .2s; }
 .app-ui .wallet-adapter-button:hover { background: var(--app-lilac); color: var(--app-ink); }
 .app-ui a:focus-visible, .app-ui button:focus-visible { outline: 2px solid var(--app-lilac); outline-offset: 4px; }

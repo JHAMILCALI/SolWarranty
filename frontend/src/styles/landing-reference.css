@@ -21,13 +21,15 @@
 .sw .sw-links a { white-space: nowrap; }
 .sw .sw-links small { color: #fff; font-size: 10px; }
 .sw .sw-links a:hover { color: #fff; }
-.sw .wallet-adapter-button {
+.sw .wallet-adapter-button,
+.sw .sw-wallet-btn {
   border-radius: 0; border: 1px solid var(--electric); color: var(--electric);
   background: transparent; height: 36px; padding: 0 14px;
   font: 800 11px/1 ui-monospace, SFMono-Regular, Consolas, monospace;
   text-transform: uppercase;
 }
-.sw .wallet-adapter-button:hover { background: var(--electric); color: var(--ink); }
+.sw .wallet-adapter-button:hover,
+.sw .sw-wallet-btn.is-disconnected:hover { background: var(--electric); color: var(--ink); }
 .sw .sw-hero {
   width: 100%; max-width: none; min-height: max(850px, 100svh);
   background: var(--electric); color: var(--ink); display: block;
@@ -181,8 +183,10 @@
 .sw .sw-final h2 mark { color: var(--electric); }
 .sw .sw-final p { color: var(--ink); }
 .sw .sw-final .sw-actions { justify-content: flex-start; margin-top: 34px; }
-.sw .sw-final .wallet-adapter-button { height: 47px; color: var(--ink); border-color: var(--ink); }
-.sw .sw-final .wallet-adapter-button:hover { color: var(--electric); background: var(--ink); }
+.sw .sw-final .wallet-adapter-button,
+.sw .sw-final .sw-wallet-btn { height: 47px; color: var(--ink); border-color: var(--ink); }
+.sw .sw-final .wallet-adapter-button:hover,
+.sw .sw-final .sw-wallet-btn.is-disconnected:hover { color: var(--electric); background: var(--ink); }
 .sw .sw-role-links { justify-content: flex-start; color: var(--ink); font: 800 11px/1 ui-monospace, monospace; text-transform: uppercase; }
 .sw .sw-footer { border-color: var(--electric); color: var(--electric); }
 .sw .sw-footer-bottom { border-color: #7148ff66; }
