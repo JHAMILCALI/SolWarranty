@@ -757,3 +757,13 @@
   .app-page, .verify-art img, .verify-orbit, .app-guide-art img, .app-notice, .app-notice-icon { animation: none !important; }
   .app-ui * { scroll-behavior: auto !important; }
 }
+
+.app-detail-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+.app-status.is-claim { color: #ffc66b; border-color: #ffc66b80; background: #ffc66b14; }
+.app-claim-alert { border: 1px solid #ffc66b80; background: radial-gradient(circle at 8% 0%, #ffc66b24, transparent 45%), #141222; margin: 0 0 36px; padding: clamp(22px, 3.5vw, 36px); }
+.app-claim-alert .app-kicker { color: #ffc66b; margin-bottom: 10px; }
+.app-claim-alert h2 { margin: 0 0 10px; }
+.app-claim-alert p { margin: 0 0 16px; color: #d2c9e0; }
+.app-claim-alert-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.app-claim-alert-links a { color: #ffc66b; border: 1px solid #ffc66b80; padding: 9px 14px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-decoration: none; }
+.app-claim-alert-links a:hover { background: #ffc66b1f; }

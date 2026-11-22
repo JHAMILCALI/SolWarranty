@@ -5,7 +5,7 @@ export function WarrantyCard({ entry, storeView = false }: { entry: AccountEntry
   const w = entry.account;
   const active = isActive(w) && !isExpired(w);
   return <article className="card warranty-card">
-    <div className="app-detail-top"><span className="eyebrow">GARANTÍA / #{w.warrantyId.toString()}</span><span className={`app-status${active ? ' is-active' : ''}`}>{isActive(w) ? isExpired(w) ? 'VENCIDA' : 'ACTIVA' : 'BORRADOR'}</span></div>
+    <div className="app-detail-top"><span className="eyebrow">GARANTÍA / #{w.warrantyId.toString()}</span><span className="app-detail-badges">{storeView && w.openClaimCount > 0 && <span className="app-status is-claim">RECLAMO ABIERTO</span>}<span className={`app-status${active ? ' is-active' : ''}`}>{isActive(w) ? isExpired(w) ? 'VENCIDA' : 'ACTIVA' : 'BORRADOR'}</span></span></div>
     <h3>{w.productName}</h3>
     <p><strong>COMPRADOR</strong><br /><code>{w.buyer.toBase58()}</code></p>
     {isActive(w) && <p><strong>VENCE</strong><br />{new Date(w.expiresAt.toNumber() * 1000).toLocaleDateString()}</p>}

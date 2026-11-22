@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { useAnchorWallet, useConnection } from '@solana/wallet-adapter-react';
 import { WarrantyCard } from '../components/WarrantyCard';
@@ -19,6 +19,12 @@ export function StoreDashboardPage() {
   const warranties = useChainData(() => store.data ? warrantiesForStore(connection, store.data.publicKey) : Promise.resolve([]), [connection, store.data?.publicKey.toBase58()]);
   const tx = useTransaction();
   const notify = useNotifications();
+  const withClaims = warranties.data?.filter(w => w.account.openClaimCount > 0) ?? [];
+  const openClaims = withClaims.reduce((total, w) => total + w.account.openClaimCount, 0);
+
+  useEffect(() => {
+    if (openClaims > 0) notify({ kind: 'info', title: 'Tienes una reclamación', message: openClaims === 1 ? 'Un comprador abrió una reclamación en tus garantías.' : `Tienes ${openClaims} reclamaciones abiertas en tus garantías.` });
+  }, [openClaims, notify]);
 
   function register(event: FormEvent) {
     event.preventDefault();
@@ -64,6 +70,12 @@ export function StoreDashboardPage() {
         </aside>
       </div>}
       {store.data && <>
+        {withClaims.length > 0 && <div className="app-claim-alert" role="alert">
+          <span className="app-kicker">● ATENCIÓN</span>
+          <h2>{openClaims === 1 ? 'TIENES UNA RECLAMACIÓN' : `TIENES ${openClaims} RECLAMACIONES`}<span className="app-period">.</span></h2>
+          <p>Un comprador abrió una reclamación. Revísala y acéptala o recházala.</p>
+          <div className="app-claim-alert-links">{withClaims.map(w => <Link key={w.publicKey.toBase58()} to={`/store/warranties/${w.publicKey.toBase58()}`}>#{w.account.warrantyId.toString()} {w.account.productName} ↗</Link>)}</div>
+        </div>}
         <div className="app-stats"><div><small>BORRADORES</small><strong>{store.data.account.draftCount}</strong></div><div><small>SIGUIENTE ID</small><strong>{store.data.account.nextWarrantyId.toString()}</strong></div><div><small>RED</small><strong>DEVNET <span>●</span></strong></div></div>
         <div className="app-section-heading"><span className="app-kicker">02 / REGISTROS</span><h2>TUS GARANTÍAS<span className="app-period">.</span></h2></div>
         {warranties.loading && <p className="app-state">Cargando garantías…</p>}
