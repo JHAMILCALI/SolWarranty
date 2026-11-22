@@ -1,14 +1,16 @@
 import { useState, type FormEvent } from 'react';
 import { parseHash } from '../solana/transactions';
+import { useNotifications } from './Notifications';
 export function ClaimForm({ submit, busy }: { submit: (reason: 'screen' | 'battery' | 'charging' | 'other', hash: number[]) => Promise<void>; busy: boolean }) {
   const [reason, setReason] = useState<'screen' | 'battery' | 'charging' | 'other'>('screen');
   const [hash, setHash] = useState(''); const [error, setError] = useState('');
+  const notify = useNotifications();
   async function onSubmit(event: FormEvent) {
     event.preventDefault(); setError('');
     try { await submit(reason, hash ? parseHash(hash) : Array(32).fill(0)); }
-    catch (e) { setError(e instanceof Error ? e.message : String(e)); }
+    catch (e) { const message = e instanceof Error ? e.message : String(e); setError(message); notify({ kind: 'error', title: 'Revisa la reclamación', message }); }
   }
-  return <form className="form card" onSubmit={onSubmit}><h3>Presentar reclamación</h3>
+  return <form className="form card" onSubmit={onSubmit}><span className="eyebrow">01 / SOLICITUD DEL COMPRADOR</span><h2>PRESENTAR RECLAMACIÓN<span className="app-period">.</span></h2>
     <label>Motivo<select value={reason} onChange={e => setReason(e.target.value as typeof reason)}><option value="screen">Pantalla</option><option value="battery">Batería</option><option value="charging">Carga</option><option value="other">Otro</option></select></label>
     <label>Hash SHA-256 de descripción (opcional)<input value={hash} onChange={e => setHash(e.target.value)} pattern="[0-9a-fA-F]{64}" placeholder="64 caracteres hexadecimales" /></label>
     {error && <p className="error" role="alert">{error}</p>}<button disabled={busy}>Crear reclamación</button>

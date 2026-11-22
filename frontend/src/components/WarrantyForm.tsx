@@ -2,6 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react';
 import { PublicKey } from '@solana/web3.js';
 import { parseHash } from '../solana/transactions';
 import type { WarrantyInput } from '../solana/types';
+import { useNotifications } from './Notifications';
 
 async function generateDemoHash(): Promise<string> {
   const random = crypto.getRandomValues(new Uint8Array(32));
@@ -20,6 +21,7 @@ export function WarrantyForm({ initial, submit, busy }: {
   const [days, setDays] = useState(initial?.days || 365);
   const [error, setError] = useState('');
   const [generating, setGenerating] = useState(!initial);
+  const notify = useNotifications();
   useEffect(() => {
     if (initial) return;
     let active = true;
@@ -36,10 +38,22 @@ export function WarrantyForm({ initial, submit, busy }: {
   }, [initial]);
   async function onSubmit(event: FormEvent) {
     event.preventDefault(); setError('');
-    try { await submit({ buyer: new PublicKey(buyer), productName: product.trim(), serialHash: parseHash(serial), receiptHash: parseHash(receipt), durationSeconds: days * 86_400 }); }
-    catch (e) { setError(e instanceof Error ? e.message : String(e)); }
+    try {
+      const productName = product.trim();
+      if (!productName) throw new Error('Escribe el nombre público del producto.');
+      let buyerKey: PublicKey;
+      try { buyerKey = new PublicKey(buyer.trim()); }
+      catch { throw new Error('La wallet del comprador no es una dirección Solana válida.'); }
+      await submit({ buyer: buyerKey, productName, serialHash: parseHash(serial), receiptHash: parseHash(receipt), durationSeconds: days * 86_400 });
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      setError(message);
+      notify({ kind: 'error', title: 'Revisa los datos', message });
+    }
   }
   return <form onSubmit={onSubmit} className="form card">
+    <span className="eyebrow">01 / INFORMACIÓN DEL PRODUCTO</span>
+    <h2>DATOS DE LA GARANTÍA<span className="app-period">.</span></h2>
     <label>Wallet del comprador<input required value={buyer} onChange={e => setBuyer(e.target.value)} placeholder="Dirección Solana" /></label>
     <label>Producto público<input required maxLength={64} value={product} onChange={e => setProduct(e.target.value)} /></label>
     <label>Hash SHA-256 del serial (hex)<input required pattern="[0-9a-fA-F]{64}" value={serial} onChange={e => setSerial(e.target.value)} /></label>
