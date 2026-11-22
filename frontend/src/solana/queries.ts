@@ -43,6 +43,14 @@ export async function warrantiesForBuyer(connection: Connection, buyer: PublicKe
   const program = await readProgram(connection);
   return accountReaders(program).warranty.all([{ memcmp: { offset: 40, bytes: buyer.toBase58() } }]);
 }
+export async function getAllWarranties(connection: Connection): Promise<AccountEntry<WarrantyAccount>[]> {
+  const program = await readProgram(connection);
+  return accountReaders(program).warranty.all([]);
+}
+export async function getAllStores(connection: Connection): Promise<AccountEntry<StoreAccount>[]> {
+  const program = await readProgram(connection);
+  return accountReaders(program).store.all([]);
+}
 export async function claimsForWarranty(connection: Connection, warranty: PublicKey): Promise<AccountEntry<ClaimAccount>[]> {
   const program = await readProgram(connection);
   return accountReaders(program).claim.all([{ memcmp: { offset: 8, bytes: warranty.toBase58() } }]);
