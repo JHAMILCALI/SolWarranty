@@ -435,7 +435,6 @@ export function HomePage() {
               <strong>Un historial conectado.</strong>
               <small>DEVNET</small>
             </div>
-            <div className="sw-ledger-line" />
             {[
               {
                 icon: "document",
