@@ -271,7 +271,7 @@ export function WalletButton({ className = '', label }: WalletButtonProps) {
               className="sw-dropdown-nav-row"
               onClick={() => setIsOpen(false)}
             >
-              <span>📜 Mis Garantías Registradas</span>
+              <span>Mis Garantías</span>
               <span className="sw-nav-arrow">↗</span>
             </Link>
             <Link
@@ -279,7 +279,7 @@ export function WalletButton({ className = '', label }: WalletButtonProps) {
               className="sw-dropdown-nav-row"
               onClick={() => setIsOpen(false)}
             >
-              <span>🏪 Mi Panel de Tienda</span>
+              <span>Panel de Tienda</span>
               <span className="sw-nav-arrow">↗</span>
             </Link>
             <Link
@@ -287,7 +287,7 @@ export function WalletButton({ className = '', label }: WalletButtonProps) {
               className="sw-dropdown-nav-row"
               onClick={() => setIsOpen(false)}
             >
-              <span>🔍 Explorador On-Chain</span>
+              <span>Explorador On-Chain</span>
               <span className="sw-nav-arrow">↗</span>
             </Link>
           </div>
